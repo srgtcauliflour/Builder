@@ -2,4 +2,3 @@ composer.phar
 /vendor/
 /node_modules/
 .secret
-/src/public/min/
