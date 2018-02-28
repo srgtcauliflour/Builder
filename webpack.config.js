@@ -11,9 +11,9 @@ const extractSass = new ExtractTextPlugin({
 })
 
 module.exports = {
-    entry: path.resolve(__dirname, './src/public/js/main.js'),
+    entry: path.resolve(__dirname, './public/js/main.js'),
     output: {
-        path: path.resolve(__dirname, './src/public/min/'),
+        path: path.resolve(__dirname, './public/min/'),
         filename: 'main.js'
     },
     mode: 'development',
