@@ -12,12 +12,16 @@ define('PRODUCTION', (!LOCAL && !STAGING ? true : false));
  */
 define('ROOT', __DIR__ . '/..');
 define('CORE', ROOT . '/Core');
+define('CACHE', ROOT . '/Cache');
+
 define('APP', ROOT . '/App');
 define('CONTROLLERS', APP . '/Controllers');
 define('MODELS', APP . '/Models');
 define('MIDDLEWARES', APP . '/Middlewares');
 define('SERVICES', APP . '/Services');
+
 define('FRONT_END', APP . '/public');
+
 
 if (!isset($useRouter))
 {
@@ -69,9 +73,11 @@ if ($useRouter)
     /**
      * Set routes
      */
-    $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $router) {
+    $dispatcher = FastRoute\cachedDispatcher(function(FastRoute\RouteCollector $router) {
         Router::routes($router);
-    });
+    }, [
+        'cacheFile' => CACHE . '/route.cache' /* required */
+    ]);
 
     /**
      * Get request info
