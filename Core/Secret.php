@@ -72,7 +72,46 @@ class Secret
         {
             throw new Exception('Missing .secret file');
         }
+    }
 
+    /**
+     * Add secret to file
+     * @param string key
+     * @param string val
+     * @return void
+     * @throws Exception
+     */
+    public static function add($key, $val)
+    {
+        $file = ROOT . '/.secret';
+        $s = PHP_EOL;
+
+        if (!file_exists($file))
+        {
+            throw new \Exception('Missing .secret file');
+        }
+
+        \file_put_contents($file, "{$key}={$val}{$s}", FILE_APPEND | LOCK_EX);
+    }
+
+    /**
+     * Remove secret from file
+     * @param string key
+     * @return void
+     * @throws Exception
+     */
+    public static function remove($key)
+    {
+        $file = ROOT . '/.secret';
+
+        if (!file_exists($file))
+        {
+            throw new \Exception('Missing .secret file');
+        }
+
+        $content = \file_get_contents($file);
+        $content = preg_replace("/({$key})\=\w{0,}\s*/", "", $content);
+        file_put_contents($file, $content);
     }
 
 }

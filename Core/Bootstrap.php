@@ -82,6 +82,9 @@ $autoloader->addFolder(APP . '/Controllers');
 
 $autoloader->autoload();
 
+Secret::remove('test');
+// Secret::remove("test");
+
 /**
  * Setup core
  */
