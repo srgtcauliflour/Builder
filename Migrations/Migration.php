@@ -49,39 +49,53 @@ class Migration
         return $files;
     }
 
-    public function route($className)
+    private function up ($className)
     {
         $classPath = "Migrations\\{$className}";
+        $table = $classPath::$table;
+
+        if (!method_exists("{$classPath}", "up"))
+        {
+            throw new \Exception("Missing function up in {$className}");
+        }
+
+        if (!$this->connection::schema()->hasTable($table))
+        {
+            \call_user_func("{$classPath}::up", $this->connection::schema());
+        }
+    }
+
+    private function down ($className)
+    {
+        $classPath = "Migrations\\{$className}";
+        $table = $classPath::$table;
+
+        if (!method_exists("{$classPath}", "down"))
+        {
+            throw new \Exception("Missing function up in {$className}");
+        }
+
+        if ($this->connection::schema()->hasTable($table))
+        {
+            \call_user_func("{$classPath}::down", $this->connection::schema());
+        }
+    }
+
+    public function route($className)
+    {
+        
         switch ($this->method) {
             case 'up':
-                if (!method_exists("{$classPath}", "up"))
-                {
-                    throw new \Exception("Missing function up in {$className}");
-                }
-                \call_user_func("{$classPath}::up", $this->connection);
+                $this->up($className);
                 break;
 
             case 'down':
-                if (!method_exists("{$classPath}", "down"))
-                {
-                    throw new \Exception("Missing function down in {$className}");
-                }
-                \call_user_func("{$classPath}::down", $this->connection);
+                $this->down($className);
                 break;
 
             case 'refresh':
-                if (!method_exists("{$classPath}", "up"))
-                {
-                    throw new \Exception("Missing function up in {$className}");
-                }
-
-                if (!method_exists("{$classPath}", "down"))
-                {
-                    throw new \Exception("Missing function down in {$className}");
-                }
-
-                \call_user_func("{$classPath}::down", $this->connection);
-                \call_user_func("{$classPath}::up", $this->connection);
+                $this->down($className);
+                $this->up($className);
                 break;
 
             default:

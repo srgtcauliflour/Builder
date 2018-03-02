@@ -1,0 +1,24 @@
+<?php
+
+use Core\Console;
+use Migrations\Migration;
+
+$useRouter = false;
+$console = true;
+require_once __DIR__ . '/Core/Bootstrap.php';
+
+$console = new Console($argv);
+
+if ($console->method == 'serve')
+{
+    echo "Starting server" . PHP_EOL;
+    echo "Hit ctrl + c to exit" . PHP_EOL;
+    
+    shell_exec('php -S localhost:8000 -t public/');
+}
+
+if ($console->method == 'migrate')
+{
+    $migrations = new Migration($console->options->method);
+    $migrations->exec();
+}

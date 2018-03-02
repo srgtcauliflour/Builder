@@ -1,6 +1,0 @@
-<?php
-
-echo "Starting server" . PHP_EOL;
-echo "Hit ctrl + c to exit" . PHP_EOL;
-
-shell_exec('php -S localhost:8000 -t public/');

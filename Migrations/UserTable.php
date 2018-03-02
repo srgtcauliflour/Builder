@@ -6,16 +6,16 @@ class UserTable
 {
     public static $table = 'users';
 
-    public static function up ($connection)
+    public static function up ($schema)
     {
-        $connection::schema()->create('users', function ($tbl) {
+        $schema->create('users', function ($tbl) {
             $tbl->increments('id');
         });
     }
 
-    public static function down ($connection)
+    public static function down ($schema)
     {
-        
+        $schema->drop('users');
     }
 
 }

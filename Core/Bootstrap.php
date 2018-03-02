@@ -1,11 +1,24 @@
 <?php
 
+if (!isset($useRouter))
+{
+    $useRouter = true;
+}
+
+if (!isset($console))
+{
+    $console = false;
+}
+
 /**
  * Define enviroment
  */
-define('LOCAL', ($_SERVER['SERVER_ADDR'] === '127.0.0.1' ? true : false));
-define('STAGING', (strpos($_SERVER['SERVER_NAME'], 'staging') !== false ? true : false));
-define('PRODUCTION', (!LOCAL && !STAGING ? true : false));
+if (!$console)
+{
+    define('LOCAL', ($_SERVER['SERVER_ADDR'] === '127.0.0.1' ? true : false));
+    define('STAGING', (strpos($_SERVER['SERVER_NAME'], 'staging') !== false ? true : false));
+    define('PRODUCTION', (!LOCAL && !STAGING ? true : false));
+}
 
 /**
  * Define paths
@@ -23,12 +36,6 @@ define('SERVICES', APP . '/Services');
 
 define('FRONT_END', APP . '/public');
 
-
-if (!isset($useRouter))
-{
-    $useRouter = true;
-}
-
 /**
  * Require main files
  */
@@ -43,7 +50,6 @@ use Core\Connection;
 use Core\Router;
 use Core\Response;
 use Core\Request;
-use Migrations\Migration;
 
 /**
  * Setup autoloader
@@ -51,10 +57,12 @@ use Migrations\Migration;
 $autoloader = new Autoloader();
 $autoloader->addFile(CORE . '/Secret.php');
 $autoloader->addFile(CORE . '/Connection.php');
+
 $autoloader->addFile(CORE . '/Response.php');
 $autoloader->addFile(CORE . '/Request.php');
 $autoloader->addFile(CORE . '/Router.php');
 
+$autoloader->addFile(CORE . '/Console.php');
 $autoloader->addFile(MIGRATIONS . '/Migration.php');
 
 $autoloader->addFolder(APP . '/Services');
