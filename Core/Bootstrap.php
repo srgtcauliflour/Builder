@@ -1,15 +1,23 @@
 <?php
 
 /**
+ * Define enviroment
+ */
+define('LOCAL', ($_SERVER['SERVER_ADDR'] === '127.0.0.1' ? true : false));
+define('STAGING', (strpos($_SERVER['SERVER_NAME'], 'staging') !== false ? true : false));
+define('PRODUCTION', (!LOCAL && !STAGING ? true : false));
+
+/**
  * Define paths
  */
 define('ROOT', __DIR__ . '/..');
 define('CORE', ROOT . '/Core');
-define('HELPERS', CORE . '/Helpers');
 define('APP', ROOT . '/App');
-define('CONFIG', ROOT . '/Config');
-define('Migrations', ROOT . '/Migrations');
-define('PUBLIC', ROOT . '/public');
+define('CONTROLLERS', APP . '/Controllers');
+define('MODELS', APP . '/Models');
+define('MIDDLEWARES', APP . '/Middlewares');
+define('SERVICES', APP . '/Services');
+define('FRONT_END', APP . '/public');
 
 if (!isset($useRouter))
 {
@@ -20,8 +28,8 @@ if (!isset($useRouter))
  * Require main files
  */
 require ROOT . '/vendor/autoload.php';
-require HELPERS . '/Helper.php';
-require HELPERS . '/Autoloader.php';
+require CORE . '/Helpers/Helper.php';
+require CORE . '/Helpers/Autoloader.php';
 
 use Core\Helpers\Helper;
 use Core\Helpers\Autoloader;
