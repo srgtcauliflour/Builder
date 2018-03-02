@@ -10,7 +10,7 @@ A static site builder.
 - ```$ composer install```
 - ```$ npm i```
 - ```$ npm run webpack ```
-- ```$ php serve```
+- ```$ php serve``` or create virtual host at ```/public```
 
 ## Install FTP
 - Create a database.
