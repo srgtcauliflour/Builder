@@ -2,11 +2,14 @@
 
 namespace Core;
 
+use Core\Middleware;
+
 class Router
 {
 
     public static $response;
     public static $request;
+    public static $middleware;
 
     public static function setup()
     {
@@ -16,8 +19,18 @@ class Router
 
     public static function routes($router)
     {
-        $router->get('/users', 'UserController.users');
-        $router->get('/user/{userId}/post/{postId}', 'UserController.users');
+        $router->get('/user', 'UserController.index');
+        $router->get('/user/{id}', 'UserController.detail');
+    }
+
+    public static function middleware($middleware)
+    {
+        $middleware->add('UserController.detail', function ($request) {
+            if ($request->params->id != '1')
+            {
+                die('now allowed');
+            }
+        });
     }
 
     public static function notFound()
@@ -34,7 +47,10 @@ class Router
 
     public static function found($handler)
     {
+        $full = $handler;
         $handler = explode('.', $handler);
+
+        self::$middleware->exec($full, self::$request);
         call_user_func("App\\{$handler[0]}::{$handler[1]}", self::$request, self::$response);
     }
 

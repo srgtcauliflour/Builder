@@ -58,6 +58,7 @@ use Core\Connection;
 use Core\Router;
 use Core\Response;
 use Core\Request;
+use Core\Middleware;
 
 /**
  * Setup autoloader
@@ -69,6 +70,7 @@ $autoloader->addFile(CORE . '/Connection.php');
 $autoloader->addFile(CORE . '/Response.php');
 $autoloader->addFile(CORE . '/Request.php');
 $autoloader->addFile(CORE . '/Router.php');
+$autoloader->addFile(CORE . '/Middleware.php');
 
 $autoloader->addFile(CORE . '/Console.php');
 $autoloader->addFile(MIGRATIONS . '/Migration.php');
@@ -89,6 +91,7 @@ Connection::setup();
 if ($useRouter)
 {
     Router::setup();
+    Router::$middleware = new Middleware();
 
     /**
      * Set routes
@@ -96,7 +99,8 @@ if ($useRouter)
     $dispatcher = FastRoute\cachedDispatcher(function(FastRoute\RouteCollector $router) {
         Router::routes($router);
     }, [
-        'cacheFile' => CACHE . '/route.cache'
+        'cacheFile' => CACHE . '/route.cache',
+        'cacheDisabled' => LOCAL
     ]);
 
     /**
@@ -133,6 +137,7 @@ if ($useRouter)
          * Route found
          */
         case FastRoute\Dispatcher::FOUND:
+            Router::middleware(Router::$middleware);
             Router::$request->params = Helper::arrayToObject($routeInfo[2]);
             Router::found($routeInfo[1]);
             break;

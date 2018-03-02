@@ -4,7 +4,7 @@ namespace App;
 
 class UserController
 {
-    public static function users($request, $response)
+    public static function index($request, $response)
     {
         print_r([
             'method' => $request->method,
@@ -12,5 +12,10 @@ class UserController
             'params' => $request->params,
             'headers' => $request->headers
         ]);
+    }
+
+    public static function detail($request, $response)
+    {
+        echo $request->params->id;
     }
 }
