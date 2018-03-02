@@ -10,6 +10,11 @@ define('CONFIG', ROOT . '/Config');
 define('Migrations', ROOT . '/Migrations');
 define('PUBLIC', ROOT . '/public');
 
+if (!isset($useRouter))
+{
+    $useRouter = true;
+}
+
 /**
  * Require main files
  */
@@ -17,10 +22,13 @@ require ROOT . '/vendor/autoload.php';
 require CORE . '/Helpers/Helper.php';
 require CORE . '/Helpers/Autoloader.php';
 
+use Core\Helpers\Helper;
 use Core\Helpers\Autoloader;
 use Core\Secret;
 use Core\Connection;
 use Core\Router;
+use Core\Response;
+use Core\Request;
 
 /**
  * Setup autoloader
@@ -28,6 +36,8 @@ use Core\Router;
 $autoloader = new Autoloader();
 $autoloader->addFile(CORE . '/Secret.php');
 $autoloader->addFile(CORE . '/Connection.php');
+$autoloader->addFile(CORE . '/Response.php');
+$autoloader->addFile(CORE . '/Request.php');
 $autoloader->addFile(CORE . '/Router.php');
 
 $autoloader->addFolder(APP . '/Services');
@@ -42,35 +52,54 @@ $autoloader->autoload();
  */
 Secret::setup();
 Connection::setup();
-Router::setup();
 
-$dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    Router::routes($r);
-});
+if ($useRouter)
+{
+    Router::setup();
 
-// Fetch method and URI from somewhere
-$httpMethod = $_SERVER['REQUEST_METHOD'];
-$uri = $_SERVER['REQUEST_URI'];
+    /**
+     * Set routes
+     */
+    $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $useRouter) {
+        Router::routes($router);
+    });
 
-// Strip query string (?foo=bar) and decode URI
-if (false !== $pos = strpos($uri, '?')) {
-    $uri = substr($uri, 0, $pos);
+    /**
+     * Get request info
+     */
+    $httpMethod = $_SERVER['REQUEST_METHOD'];
+    $uri = rawurldecode(explode('?', $_SERVER['REQUEST_URI'])[0]);
+
+    /**
+     * Set request object
+     */
+    Router::$request->method = $httpMethod;
+    Router::$request->uri = $uri;
+    Router::$request->headers = getallheaders();
+
+    /**
+     * Dispatch
+     */
+    $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+    switch ($routeInfo[0]) {
+        /**
+         * Route not found
+         */
+        case FastRoute\Dispatcher::NOT_FOUND:
+            Router::notFound();
+            break;
+        /**
+         * Method not allowed
+         */
+        case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+            Router::methodNotAlowed($routeInfo[1]);
+            break;
+        /**
+         * Route found
+         */
+        case FastRoute\Dispatcher::FOUND:
+            Router::$request->params = Helper::arrayToObject($routeInfo[2]);
+            Router::found($routeInfo[1]);
+            break;
+    }
 }
-$uri = rawurldecode($uri);
-
-$routeInfo = $dispatcher->dispatch($httpMethod, $uri);
-switch ($routeInfo[0]) {
-    case FastRoute\Dispatcher::NOT_FOUND:
-        Router::notFound();
-        break;
-    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-        $allowedMethods = $routeInfo[1];
-        Router::methodNotAlowed($allowedMethods);
-        break;
-    case FastRoute\Dispatcher::FOUND:
-        $handler = $routeInfo[1];
-        $vars = $routeInfo[2];
-        Router::found($handler, $vars);
-        break;
-}
-

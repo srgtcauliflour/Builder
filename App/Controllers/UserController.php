@@ -4,13 +4,13 @@ namespace App;
 
 class UserController
 {
-    public static function users($vars)
+    public static function users($request, $response)
     {
-        echo '<pre>';
-        var_dump([
-            $vars
+        print_r([
+            'method' => $request->method,
+            'uri' => $request->uri,
+            'params' => $request->params,
+            'headers' => $request->headers
         ]);
-        echo '</pre>';
-        die;
     }
 }
