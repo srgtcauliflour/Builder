@@ -13,6 +13,7 @@ define('PRODUCTION', (!LOCAL && !STAGING ? true : false));
 define('ROOT', __DIR__ . '/..');
 define('CORE', ROOT . '/Core');
 define('CACHE', ROOT . '/Cache');
+define('MIGRATIONS', ROOT . '/Migrations');
 
 define('APP', ROOT . '/App');
 define('CONTROLLERS', APP . '/Controllers');
@@ -42,6 +43,7 @@ use Core\Connection;
 use Core\Router;
 use Core\Response;
 use Core\Request;
+use Migrations\Migration;
 
 /**
  * Setup autoloader
@@ -52,6 +54,8 @@ $autoloader->addFile(CORE . '/Connection.php');
 $autoloader->addFile(CORE . '/Response.php');
 $autoloader->addFile(CORE . '/Request.php');
 $autoloader->addFile(CORE . '/Router.php');
+
+$autoloader->addFile(MIGRATIONS . '/Migration.php');
 
 $autoloader->addFolder(APP . '/Services');
 $autoloader->addFolder(APP . '/Middlewares');
