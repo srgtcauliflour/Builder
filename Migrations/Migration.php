@@ -6,11 +6,36 @@ use Core\Connection;
 
 class Migration
 {
+    /**
+     * Excluded files
+     * @var array
+     */
     public $excludes = ['Migration.php']; 
+
+    /**
+     * Possible methods for migrations
+     * @var array
+     */
     public $possibleMethods = ['up', 'down', 'refresh'];
+
+    /**
+     * Method to be executed
+     * @param string
+     */
     public $method;
+
+    /**
+     * Connection
+     * @var Core\Connection
+     */
     public $connection;
 
+    /**
+     * Constructor
+     * @param string method to be exeucted
+     * @return self
+     * @throws Exception
+     */
     public function __construct($method)
     {
         $method = strtolower($method);
@@ -24,6 +49,10 @@ class Migration
         $this->method = $method;
     }
 
+    /**
+     * Get all migration classes
+     * @return array
+     */
     public function getMigrations()
     {
         $files = \scanDir(__DIR__);
@@ -49,6 +78,12 @@ class Migration
         return $files;
     }
 
+    /**
+     * Execute up method
+     * @param string class name
+     * @return void
+     * @throws Exception
+     */
     private function up ($className)
     {
         $classPath = "Migrations\\{$className}";
@@ -65,6 +100,12 @@ class Migration
         }
     }
 
+    /**
+     * Execute down method
+     * @param string class name
+     * @return void
+     * @throws Exception
+     */
     private function down ($className)
     {
         $classPath = "Migrations\\{$className}";
@@ -81,6 +122,12 @@ class Migration
         }
     }
 
+    /**
+     * Route through methods
+     * @param string class name
+     * @return void
+     * @throws Exception
+     */
     public function route($className)
     {
         
@@ -104,6 +151,10 @@ class Migration
         }
     }
 
+    /**
+     * Execute class
+     * @return void
+     */
     public function exec()
     {
         $migrations = $this->getMigrations();

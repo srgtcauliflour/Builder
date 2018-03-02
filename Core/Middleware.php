@@ -4,20 +4,40 @@ namespace Core;
 
 class Middleware
 {
-
+    /**
+     * Collection of middleware
+     * @var array
+     */
     public $collection;
 
+    /**
+     * Constructor
+     * @return self
+     */
     public function __construct()
     {
         $this->collection = [];
     }
 
+    /**
+     * Add middleware to handle
+     * @param string handle
+     * @param mixed callback
+     * @return self
+     */
     public function add($handler, $callback)
     {
         $this->collection[$handler][] = $callback;
         return $this;
     }
 
+    /**
+     * Execute middleware
+     * @param mixed handle
+     * @param Core\Request request
+     * @param Core\Response response
+     * @return void
+     */
     public function exec($handler, $request, $response)
     {
         if (!isset($this->collection[$handler]))

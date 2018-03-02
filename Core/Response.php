@@ -4,11 +4,34 @@ namespace Core;
 
 class Response
 {
+    /**
+     * Response headers
+     * @var array
+     */
     public $headers;
+
+    /**
+     * Response body
+     * @var string
+     */
     public $body;
+
+    /**
+     * Response cookies
+     * @var array
+     */
     public $cookies;
+
+    /**
+     * Response code
+     * @var int
+     */
     public $code;
 
+    /**
+     * Constructor
+     * @return self
+     */
     public function __construct()
     {
         $this->headers = [];
@@ -16,29 +39,58 @@ class Response
         $this->cookies = [];
     }
 
+    /**
+     * Set response body json
+     * @param array json
+     * @return self
+     */
     public function json($json)
     {
         $this->body = json_encode($json);
         $this->headers['Content-type'] = 'application/json';
+        return $this;
     }
 
+    /**
+     * Set response body xml
+     * @param string
+     * @return self
+     */
     public function xml($xml)
     {
         $this->body = $xml;
         $this->headers['Content-type'] = 'application/xml';
+        return $this;
     }
 
+    /**
+     * Set response code
+     * @param int
+     * @return self
+     */
     public function code($code)
     {
         $this->code = $code;
+        return $this;
     }
 
+    /**
+     * Set response cookie
+     * @param string key
+     * @param string value
+     * @return self
+     */
     public function setCookie($key, $value)
     {
         $this->cookies[$key] = $value;
         return $this;
     }
 
+    /**
+     * Set view response
+     * @param string view path
+     * @return self
+     */
     public function view($path)
     {
         $this->body = file_get_contents($path);
@@ -46,6 +98,11 @@ class Response
         return $this;
     }
     
+    /**
+     * Send response
+     * @param int response code
+     * @return void
+     */
     public function send($code = 200)
     {
 

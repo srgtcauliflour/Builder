@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 if (!isset($useRouter))
 {
     $useRouter = true;
@@ -81,9 +83,6 @@ $autoloader->addFolder(APP . '/Models');
 $autoloader->addFolder(APP . '/Controllers');
 
 $autoloader->autoload();
-
-Secret::remove('test');
-// Secret::remove("test");
 
 /**
  * Setup core
