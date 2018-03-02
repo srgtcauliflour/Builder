@@ -4,19 +4,34 @@ use Core\Console;
 use Migrations\Migration;
 
 $useRouter = false;
-$console = true;
+$isConsole = true;
 require_once __DIR__ . '/Core/Bootstrap.php';
 
 $console = new Console($argv);
 
+/**
+ * Serve php server
+ */
 if ($console->method == 'serve')
 {
-    echo "Starting server" . PHP_EOL;
+    if (isset($console->options->port))
+    {
+        $port = $console->options->port;
+    }
+    else
+    {
+        $port = 8000;
+    }
+
+    echo "Starting server on port: {$port}" . PHP_EOL;
     echo "Hit ctrl + c to exit" . PHP_EOL;
     
-    shell_exec('php -S localhost:8000 -t public/');
+    shell_exec("php -S localhost:{$port} -t public/");
 }
 
+/**
+ * execute migrate
+ */
 if ($console->method == 'migrate')
 {
     $migrations = new Migration($console->options->method);

@@ -5,17 +5,25 @@ if (!isset($useRouter))
     $useRouter = true;
 }
 
-if (!isset($console))
+if (!isset($isConsole))
 {
-    $console = false;
+    $isConsole = false;
 }
 
 /**
  * Define enviroment
  */
-if (!$console)
+if (!$isConsole)
 {
-    define('LOCAL', ($_SERVER['SERVER_ADDR'] === '127.0.0.1' ? true : false));
+    if (isset($_SERVER['SERVER_ADDR']))
+    {
+        define('LOCAL', ($_SERVER['SERVER_ADDR'] === '127.0.0.1' ? true : false));
+    }
+    else
+    {
+        define('LOCAL', ($_SERVER['SERVER_NAME'] === 'localhost' ? true : false));
+    }
+
     define('STAGING', (strpos($_SERVER['SERVER_NAME'], 'staging') !== false ? true : false));
     define('PRODUCTION', (!LOCAL && !STAGING ? true : false));
 }
@@ -88,7 +96,7 @@ if ($useRouter)
     $dispatcher = FastRoute\cachedDispatcher(function(FastRoute\RouteCollector $router) {
         Router::routes($router);
     }, [
-        'cacheFile' => CACHE . '/route.cache' /* required */
+        'cacheFile' => CACHE . '/route.cache'
     ]);
 
     /**
