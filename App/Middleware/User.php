@@ -12,7 +12,7 @@ class User
             $response->code(403);
             $response->json([
                 'Code' => 403,
-                'Error' => 'Now allowed'
+                'Error' => 'Not allowed'
             ]);
 
             $response->send();
