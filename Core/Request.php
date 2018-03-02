@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Core\Helpers\Helper;
+
 class Request
 {
     public $method;
@@ -9,10 +11,12 @@ class Request
     public $headers;
     public $params;
     public $body;
+    public $query;
 
     public function __construct()
     {
         $this->body = file_get_contents('php://input');
+        $this->query = Helper::arrayToObject($_GET);
     }
 
     public function getJSONRequest()

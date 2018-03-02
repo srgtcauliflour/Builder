@@ -5,6 +5,7 @@
  */
 define('ROOT', __DIR__ . '/..');
 define('CORE', ROOT . '/Core');
+define('HELPERS', CORE . '/Helpers');
 define('APP', ROOT . '/App');
 define('CONFIG', ROOT . '/Config');
 define('Migrations', ROOT . '/Migrations');
@@ -19,8 +20,8 @@ if (!isset($useRouter))
  * Require main files
  */
 require ROOT . '/vendor/autoload.php';
-require CORE . '/Helpers/Helper.php';
-require CORE . '/Helpers/Autoloader.php';
+require HELPERS . '/Helper.php';
+require HELPERS . '/Autoloader.php';
 
 use Core\Helpers\Helper;
 use Core\Helpers\Autoloader;
@@ -60,7 +61,7 @@ if ($useRouter)
     /**
      * Set routes
      */
-    $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $useRouter) {
+    $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $router) {
         Router::routes($router);
     });
 
