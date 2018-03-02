@@ -18,7 +18,7 @@ class Middleware
         return $this;
     }
 
-    public function exec($handler, $request)
+    public function exec($handler, $request, $response)
     {
         if (!isset($this->collection[$handler]))
         {
@@ -28,7 +28,16 @@ class Middleware
 
         foreach ($this->collection[$handler] as $key => $callback)
         {
-            $callback($request);
+            $raw = $callback;
+            if (is_callable($callback))
+            {
+                $callback($request, $response);
+            }
+            else
+            {
+                $callback = explode('.', $callback);
+                call_user_func("Middleware\\{$callback[0]}::{$callback[1]}", $request, $response);
+            }
         }
     }
 

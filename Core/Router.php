@@ -25,12 +25,7 @@ class Router
 
     public static function middleware($middleware)
     {
-        $middleware->add('UserController.detail', function ($request) {
-            if ($request->params->id != '1')
-            {
-                die('now allowed');
-            }
-        });
+        $middleware->add('UserController.detail', 'User.denyDetails');
     }
 
     public static function notFound()
@@ -50,7 +45,7 @@ class Router
         $full = $handler;
         $handler = explode('.', $handler);
 
-        self::$middleware->exec($full, self::$request);
+        self::$middleware->exec($full, self::$request, self::$response);
         call_user_func("App\\{$handler[0]}::{$handler[1]}", self::$request, self::$response);
     }
 

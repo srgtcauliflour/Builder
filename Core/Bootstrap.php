@@ -76,7 +76,7 @@ $autoloader->addFile(CORE . '/Console.php');
 $autoloader->addFile(MIGRATIONS . '/Migration.php');
 
 $autoloader->addFolder(APP . '/Services');
-$autoloader->addFolder(APP . '/Middlewares');
+$autoloader->addFolder(APP . '/Middleware');
 $autoloader->addFolder(APP . '/Models');
 $autoloader->addFolder(APP . '/Controllers');
 
