@@ -2,11 +2,6 @@
 
 session_start();
 
-if (!isset($useRouter))
-{
-    $useRouter = true;
-}
-
 if (!isset($isConsole))
 {
     $isConsole = false;
