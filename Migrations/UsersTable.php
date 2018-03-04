@@ -2,7 +2,7 @@
 
 namespace Migrations;
 
-class UserTable
+class UsersTable
 {
     public static $table = 'users';
 
@@ -10,7 +10,7 @@ class UserTable
     {
         $schema->create('users', function ($table) {
             $table->increments('user_id');
-            $table->unsignedInteger('type_id');
+            $table->integer('type_id')->unsigned();
             $table->string('email', 255);
             $table->string('password', 255);
             $table->tinyInteger('is_active');

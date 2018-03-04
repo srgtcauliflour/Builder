@@ -2,7 +2,7 @@
 
 namespace Migrations;
 
-class TypeTable
+class TypesTable
 {
     public static $table = 'types';
 

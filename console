@@ -3,8 +3,6 @@
 use Core\Console;
 use Migrations\Migration;
 
-$useRouter = false;
-$isConsole = true;
 require_once __DIR__ . '/Core/Bootstrap.php';
 
 $console = new Console($argv);

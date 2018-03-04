@@ -2,7 +2,7 @@
 
 namespace Migrations;
 
-class SettingTable
+class SettingsTable
 {
     public static $table = 'settings';
 
@@ -10,8 +10,8 @@ class SettingTable
     {
         $schema->create('settings', function ($table) {
             $table->increments('setting_id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('type_id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('type_id')->unsigned();
             $table->string('name', 255);
             $table->text('value');
             $table->timestamps();
