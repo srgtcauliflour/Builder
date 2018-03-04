@@ -68,7 +68,7 @@ class Console
             }
         }
 
-        $this->options = \Core\Helpers\Helper::arrayToObject($this->options);
+        $this->options = \Core\Helper::arrayToObject($this->options);
     }
 
 }

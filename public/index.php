@@ -4,7 +4,7 @@ use Core\Router;
 use Core\Response;
 use Core\Request;
 use Core\Middleware;
-use Core\Helpers\Helper;
+use Core\Helper;
 
 require __DIR__ . '/../Core/Bootstrap.php';
 

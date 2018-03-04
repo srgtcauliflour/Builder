@@ -45,11 +45,11 @@ define('FRONT_END', APP . '/public');
  * Require main files
  */
 require ROOT . '/vendor/autoload.php';
-require CORE . '/Helpers/Helper.php';
-require CORE . '/Helpers/Autoloader.php';
+require CORE . '/Helper.php';
+require CORE . '/Autoloader.php';
 
-use Core\Helpers\Helper;
-use Core\Helpers\Autoloader;
+use Core\Helper;
+use Core\Autoloader;
 use Core\Secret;
 use Core\Connection;
 

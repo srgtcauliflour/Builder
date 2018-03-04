@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Helpers;
+namespace Core;
 
 class Helper
 {
@@ -23,6 +23,17 @@ class Helper
     public static function objectToArray($object)
     {
         return json_decode(json_encode($object), true);
+    }
+
+    /**
+     * Generate a simple slug
+     * @param string content
+     * @param string divider
+     * @return string slug
+     */
+    public static function generateSlug($content, $divider = "_")
+    {
+        return trim(preg_replace("/[^a-zA-Z0-9]{1,}/", $divider, trim($content)), $divider);
     }
 
 }

@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use \Core\Helpers\Helper;
+use \Core\Helper;
 
 class Secret
 {
