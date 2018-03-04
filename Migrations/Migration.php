@@ -87,17 +87,13 @@ class Migration
     private function up ($className)
     {
         $classPath = "Migrations\\{$className}";
-        $table = $classPath::$table;
 
         if (!method_exists("{$classPath}", "up"))
         {
             throw new \Exception("Missing function up in {$className}");
         }
 
-        if (!$this->connection::schema()->hasTable($table))
-        {
-            \call_user_func("{$classPath}::up", $this->connection::schema());
-        }
+        \call_user_func("{$classPath}::up", $this->connection::schema());
     }
 
     /**
@@ -109,17 +105,13 @@ class Migration
     private function down ($className)
     {
         $classPath = "Migrations\\{$className}";
-        $table = $classPath::$table;
 
         if (!method_exists("{$classPath}", "down"))
         {
             throw new \Exception("Missing function up in {$className}");
         }
 
-        if ($this->connection::schema()->hasTable($table))
-        {
-            \call_user_func("{$classPath}::down", $this->connection::schema());
-        }
+        \call_user_func("{$classPath}::down", $this->connection::schema());
     }
 
     /**
@@ -140,11 +132,6 @@ class Migration
                 $this->down($className);
                 break;
 
-            case 'refresh':
-                $this->down($className);
-                $this->up($className);
-                break;
-
             default:
                 throw new \Exception("Method {$this->method} does not exist");
                 break;
@@ -158,6 +145,24 @@ class Migration
     public function exec()
     {
         $migrations = $this->getMigrations();
+
+        if ($this->method == 'refresh')
+        {
+            $this->method = 'down';
+            $reversed = \array_reverse($migrations);
+            foreach ($reversed as $name => $path)
+            {
+                require_once $path;
+                $this->route($name);
+            }
+
+            $this->method = 'up';
+        }
+
+        if ($this->method == 'down')
+        {
+            $migrations = \array_reverse($migrations);
+        }
 
         foreach ($migrations as $name => $path)
         {

@@ -51,6 +51,7 @@ class Connection
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => (Secret::get('Prefix') ? Secret::get('Prefix') : ''),
+            'engine' => 'InnoDB'
         ]);
         self::$capsule->setAsGlobal();
         self::$capsule->bootEloquent();
