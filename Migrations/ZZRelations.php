@@ -42,6 +42,9 @@ class ZZRelations
                 ->on('types');
         });
 
+        /**
+         * Sources
+         */
         $schema->table('sources', function ($table) {
             $table
                 ->foreign('type_id')
@@ -52,6 +55,66 @@ class ZZRelations
                 ->foreign('user_id')
                 ->references('user_id')
                 ->on('users');
+        });
+
+        /**
+         * Posts
+         */
+        $schema->table('posts', function ($table) {
+            $table
+                ->foreign('type_id')
+                ->references('type_id')
+                ->on('types');
+            
+            $table
+                ->foreign('site_id')
+                ->references('site_id')
+                ->on('sites');
+            
+            $table
+                ->foreign('module_id')
+                ->references('module_id')
+                ->on('modules');
+        });
+
+        /**
+         * Sites
+         */
+        $schema->table('sites', function ($table) {
+            $table
+                ->foreign('type_id')
+                ->references('type_id')
+                ->on('types');
+
+            $table
+                ->foreign('user_id')
+                ->references('user_id')
+                ->on('users');
+        });
+
+        /**
+         * Modules
+         */
+        $schema->table('modules', function ($table) {
+            $table
+                ->foreign('type_id')
+                ->references('type_id')
+                ->on('types');
+        });
+
+        /**
+         * Post Modules
+         */
+        $schema->table('posts_modules', function ($table) {
+            $table
+                ->foreign('post_id')
+                ->references('post_id')
+                ->on('posts');
+
+            $table
+                ->foreign('module_id')
+                ->references('module_id')
+                ->on('modules');
         });
     }
 
@@ -76,7 +139,47 @@ class ZZRelations
          * Activities
          */
         $schema->table('activities', function ($table) {
-            $table->dropForeign('activies_type_id_foreign');
+            $table->dropForeign('activities_type_id_foreign');
+        });
+
+        /**
+         * Sources
+         */
+        $schema->table('sources', function ($table) {
+            $table->dropForeign('sources_type_id_foreign');
+            $table->dropForeign('sources_user_id_foreign');
+        });
+
+        /**
+         * Posts
+         */
+        $schema->table('posts', function ($table) {
+            $table->dropForeign('posts_type_id_foreign');
+            $table->dropForeign('posts_site_id_foreign');
+            $table->dropForeign('posts_module_id_foreign');
+        });
+
+        /**
+         * Sites
+         */
+        $schema->table('sites', function ($table) {
+            $table->dropForeign('sites_type_id_foreign');
+            $table->dropForeign('sites_user_id_foreign');
+        });
+
+        /**
+         * Modules
+         */
+        $schema->table('modules', function ($table) {
+            $table->dropForeign('modules_type_id_foreign');
+        });
+
+        /**
+         * Post Modules
+         */
+        $schema->table('posts_modules', function ($table) {
+            $table->dropForeign('posts_modules_post_id_foreign');
+            $table->dropForeign('posts_modules_module_id_foreign');
         });
     }
 }
