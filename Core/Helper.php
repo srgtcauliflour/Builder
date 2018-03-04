@@ -36,4 +36,37 @@ class Helper
         return trim(preg_replace("/[^a-zA-Z0-9]{1,}/", $divider, trim($content)), $divider);
     }
 
+    public static function deleteContent($path)
+    {
+        try
+        {
+            $iterator = new \DirectoryIterator($path);
+            foreach ( $iterator as $fileinfo )
+            {
+                if($fileinfo->isDot())
+                {
+                    continue;
+                }
+
+                if($fileinfo->isDir())
+                {
+                    if(self::deleteContent($fileinfo->getPathname()))
+                    {
+                        @rmdir($fileinfo->getPathname());
+                    }
+                }
+                if($fileinfo->isFile())
+                {
+                    @unlink($fileinfo->getPathname());
+                }
+            }
+        }
+        catch ( Exception $e )
+        {
+        
+         return false;
+        }
+        return true;
+    }
+
 }

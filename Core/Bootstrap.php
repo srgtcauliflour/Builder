@@ -52,12 +52,14 @@ use Core\Helper;
 use Core\Autoloader;
 use Core\Secret;
 use Core\Connection;
+use Core\Cache;
 
 /**
  * Setup autoloader
  */
 $autoloader = new Autoloader();
 $autoloader->addFile(CORE . '/Secret.php');
+$autoloader->addFile(CORE . '/Cache.php');
 $autoloader->addFile(CORE . '/Connection.php');
 
 $autoloader->addFile(CORE . '/Response.php');

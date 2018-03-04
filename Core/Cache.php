@@ -15,15 +15,15 @@ class Cache
      */
     public static function create($type, $id, $content)
     {
-        $path = CACHE . "/{$type}/{$id}.json";
+        $path = CACHE . "/{$type}/{$id}.cache";
         
-        if (!file_exists($typePath))
+        if (!file_exists(CACHE . "/{$type}"))
         {
             mkdir(CACHE . "/{$type}");
         }
 
         \file_put_contents($path, json_encode($content));
-        return json_encode($content);
+        return json_decode(json_encode($content));
     }
 
     /**
@@ -34,7 +34,7 @@ class Cache
      */
     public static function get($type, $id)
     {
-        return \file_get_contents(CACHE . "/{$type}/{$id}.json");
+        return json_decode(\file_get_contents(CACHE . "/{$type}/{$id}.cache"));
     }
 
     /**
@@ -78,7 +78,21 @@ class Cache
             return file_exists(CACHE . "/{$type}");
         }
 
-        return file_exists(CACHE . "/{$type}/{$id}");
+        return file_exists(CACHE . "/{$type}/{$id}.cache");
+    }
+
+    public static function clear($type = null, $id = null)
+    {
+        if ($type !== null && $id !== null)
+        {
+            return @unlink(CACHE . "/{$type}/{$id}.cache");
+        }
+        else if ($type !== null)
+        {
+            return Helper::deleteContent(CACHE . "/$type");
+        }
+
+        return Helper::deleteContent(CACHE);
     }
 
 }
