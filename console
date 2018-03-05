@@ -36,3 +36,22 @@ if ($console->method == 'migrate')
     $migrations = new Migration($console->options->method);
     $migrations->exec();
 }
+
+if ($console->method == 'test')
+{
+    $path = VENDOR . "{$seperator}bin{$seperator}phpunit";
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+    {
+        $path .= '.bat';
+    }
+
+    if (isset($console->options->suite))
+    {
+        echo shell_exec($path . " --testsuite {$console->options->suite}");
+    }
+    else
+    {
+        echo shell_exec($path);
+    }
+
+}

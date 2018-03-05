@@ -2,15 +2,10 @@
 
 session_start();
 
-if (!isset($isConsole))
-{
-    $isConsole = false;
-}
-
 /**
  * Define enviroment
  */
-if (!$isConsole)
+if ($_SERVER['SESSIONNAME'] !== "Console")
 {
     if (isset($_SERVER['SERVER_ADDR']))
     {
@@ -24,22 +19,33 @@ if (!$isConsole)
     define('STAGING', (strpos($_SERVER['SERVER_NAME'], 'staging') !== false ? true : false));
     define('PRODUCTION', (!LOCAL && !STAGING ? true : false));
 }
+else
+{
+    define('LOCAL', true);
+    define('STAGING', false);
+    define('PRODUCTION', false);
+}
+
+$seperator = DIRECTORY_SEPARATOR;
 
 /**
  * Define paths
  */
-define('ROOT', __DIR__ . '/..');
-define('CORE', ROOT . '/Core');
-define('CACHE', ROOT . '/Cache');
-define('MIGRATIONS', ROOT . '/Migrations');
+define("ROOT", __DIR__ . "{$seperator}..");
+define("CORE", ROOT . "{$seperator}Core");
+define("CACHE", ROOT . "{$seperator}Cache");
+define("MIGRATIONS", ROOT . "{$seperator}Migrations");
+define("TESTS", ROOT . "{$seperator}Tests");
+define("VENDOR", ROOT . "{$seperator}vendor");
+define("NODE_MODULES", ROOT . "{$seperator}node_modules");
 
-define('APP', ROOT . '/App');
-define('CONTROLLERS', APP . '/Controllers');
-define('MODELS', APP . '/Models');
-define('MIDDLEWARES', APP . '/Middlewares');
-define('SERVICES', APP . '/Services');
+define("APP", ROOT . "{$seperator}App");
+define("CONTROLLERS", APP . "{$seperator}Controllers");
+define("MODELS", APP . "{$seperator}Models");
+define("MIDDLEWARES", APP . "{$seperator}Middlewares");
+define("SERVICES", APP . "{$seperator}Services");
 
-define('FRONT_END', APP . '/public');
+define("FRONT_END", APP . "{$seperator}public");
 
 /**
  * Require main files
