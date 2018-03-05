@@ -13,7 +13,7 @@ class Cache
      * @param array content
      * @return object
      */
-    public static function create($type, $id, $content)
+    public static function set($type, $id, $content)
     {
         $path = CACHE . "/{$type}/{$id}.cache";
         
@@ -38,34 +38,6 @@ class Cache
     }
 
     /**
-     * Update cache item
-     * @param string content type
-     * @param string content id
-     * @param array content
-     * @return void
-     */
-    public static function update($type, $id, $content)
-    {
-        self::create($type, $id, $content);
-    }
-
-    /**
-     * Get cache item or create new cache item
-     * @param string content type
-     * @param string content id
-     * @param array content
-     */
-    public static function getOrCreate($type, $id, $content)
-    {
-        if (self::exists($type, $id))
-        {
-            return self::get($type, $id);
-        }
-
-        return self::create($type, $id, $content);
-    }
-
-    /**
      * Check cache type or cache item exists
      * @param string content type
      * @param int content id
@@ -81,6 +53,12 @@ class Cache
         return file_exists(CACHE . "/{$type}/{$id}.cache");
     }
 
+    /**
+     * Clear Cache
+     * @param string content type
+     * @param string content id
+     * @return bool
+     */
     public static function clear($type = null, $id = null)
     {
         if ($type !== null && $id !== null)
