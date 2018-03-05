@@ -63,7 +63,15 @@ class Console
             if (strpos($value, '--') !== false)
             {
                 $option = str_replace('--', '', $value);
-                $optionVal = $this->raw[$key + 1];
+
+                if (isset($this->raw[$key + 1]))
+                {
+                    $optionVal = $this->raw[$key + 1];
+                }
+                else
+                {
+                    $optionVal = '';
+                }
                 $this->options[$option] = $optionVal;
             }
         }
