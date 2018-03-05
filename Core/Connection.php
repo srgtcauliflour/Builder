@@ -57,4 +57,16 @@ class Connection
         self::$capsule->bootEloquent();
     }
 
+    public static function ping()
+    {
+        $ping = json_decode(json_encode(self::get()::select("SELECT 1")[0]), true)["1"];
+
+        if ($ping == "1")
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 }

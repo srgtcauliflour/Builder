@@ -5,7 +5,7 @@ session_start();
 /**
  * Define enviroment
  */
-if ($_SERVER['SESSIONNAME'] !== "Console")
+if (!isset($_SERVER['SESSIONNAME']) || $_SERVER['SESSIONNAME'] !== "Console")
 {
     if (isset($_SERVER['SERVER_ADDR']))
     {
@@ -36,6 +36,7 @@ define("CORE", ROOT . "{$seperator}Core");
 define("CACHE", ROOT . "{$seperator}Cache");
 define("MIGRATIONS", ROOT . "{$seperator}Migrations");
 define("TESTS", ROOT . "{$seperator}Tests");
+define("TEST_DATA", TESTS . "{$seperator}TestData");
 define("VENDOR", ROOT . "{$seperator}vendor");
 define("NODE_MODULES", ROOT . "{$seperator}node_modules");
 
@@ -88,3 +89,5 @@ $autoloader->autoload();
  */
 Secret::setup();
 Connection::setup();
+
+Connection::ping();

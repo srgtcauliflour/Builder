@@ -12,7 +12,7 @@ class Helper
      */
     public static function arrayToObject($array)
     {
-        return json_decode(json_encode($array));
+        return (object) $array;
     }
 
     /**
@@ -22,7 +22,7 @@ class Helper
      */
     public static function objectToArray($object)
     {
-        return json_decode(json_encode($object), true);
+        return (array) $object;
     }
 
     /**
