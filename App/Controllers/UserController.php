@@ -2,16 +2,13 @@
 
 namespace App;
 
+use Core\View;
+
 class UserController
 {
     public static function index($request, $response)
     {
-        print_r([
-            'method' => $request->method,
-            'uri' => $request->uri,
-            'params' => $request->params,
-            'headers' => $request->headers
-        ]);
+        View::serve("Home.php");
     }
 
     public static function detail($request, $response)
