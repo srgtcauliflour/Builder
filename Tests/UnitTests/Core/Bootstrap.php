@@ -4,7 +4,7 @@ namespace Tests\UnitTests\Core;
 
 use PHPUnit\Framework\TestCase;
 
-class Bootstrap extends TestCase
+class BootstrapTest extends TestCase
 {
 
     /**

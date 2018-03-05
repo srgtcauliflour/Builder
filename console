@@ -47,7 +47,7 @@ if ($console->method == 'test')
 
     if (isset($console->options->suite))
     {
-        echo shell_exec($path . " --testsuite {$console->options->suite}");
+        echo shell_exec($path . " --testsuite {$console->options->suite} --verbose");
     }
     else
     {

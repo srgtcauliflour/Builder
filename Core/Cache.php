@@ -11,7 +11,7 @@ class Cache
      * @param string content type
      * @param string content id
      * @param array content
-     * @return object
+     * @return bool
      */
     public static function set($type, $id, $content)
     {
@@ -22,8 +22,14 @@ class Cache
             mkdir(CACHE . "/{$type}");
         }
 
-        \file_put_contents($path, json_encode($content));
-        return json_decode(json_encode($content));
+        $result = \file_put_contents($path, json_encode($content));
+
+        if ($result === false)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -34,7 +40,7 @@ class Cache
      */
     public static function get($type, $id)
     {
-        return json_decode(\file_get_contents(CACHE . "/{$type}/{$id}.cache"));
+        return json_decode(\file_get_contents(CACHE . "/{$type}/{$id}.cache"), true);
     }
 
     /**
