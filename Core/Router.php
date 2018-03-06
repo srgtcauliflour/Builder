@@ -49,6 +49,7 @@ class Router
      */
     public static function notFound()
     {
+        \http_response_code(404);
         include APP . DIRECTORY_SEPARATOR . "404.php";
     }
 
@@ -57,8 +58,9 @@ class Router
      * @param array allowed methods
      * @return void
      */
-    public static function notAllowed($allowedMethods)
+    public static function methodNotAlowed($allowedMethods)
     {
+        \http_response_code(405);
         include APP . DIRECTORY_SEPARATOR . "405.php";
     }
 

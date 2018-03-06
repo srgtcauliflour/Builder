@@ -15,4 +15,14 @@ class UserController
     {
         echo $request->params->id;
     }
+
+    public static function store($request, $response)
+    {
+        # code...
+    }
+
+    public static function update($request, $response)
+    {
+        # code...
+    }
 }
