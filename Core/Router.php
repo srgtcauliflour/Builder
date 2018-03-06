@@ -28,8 +28,8 @@ class Router
      */
     public static function routes($router)
     {
-        $router->get('/user', 'UserController.index');
-        $router->get('/user/{id}', 'UserController.detail');
+        include APP . DIRECTORY_SEPARATOR . "Router.php";
+        \routes($router);
     }
 
     /**
@@ -39,7 +39,8 @@ class Router
      */
     public static function middleware($middleware)
     {
-        $middleware->add('UserController.detail', 'User.denyDetails');
+        include APP . DIRECTORY_SEPARATOR . "Middleware.php";
+        \middleware($middleware);
     }
 
     /**
@@ -48,7 +49,7 @@ class Router
      */
     public static function notFound()
     {
-        echo 404;
+        include APP . DIRECTORY_SEPARATOR . "404.php";
     }
 
     /**
@@ -58,9 +59,7 @@ class Router
      */
     public static function notAllowed($allowedMethods)
     {
-        $methods = implode(', ', $allowedMethods);
-        $methods = ltrim(', ');
-        echo "only {$methods} are allowed";
+        include APP . DIRECTORY_SEPARATOR . "405.php";
     }
 
     /**
