@@ -10,9 +10,10 @@ class TypesTable
     {
         $schema->create('types', function ($table) {
             $table->increments('type_id');
-            $table->string('type', 255);
-            $table->string('name', 255)->nullable();
+            $table->string('type', 255)->nullable();
+            $table->string('name', 255);
             $table->string('value', 255)->nullable();
+            $table->string('desc', 255)->nullable();
             $table->timestamps();
         });
     }

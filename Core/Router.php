@@ -75,7 +75,7 @@ class Router
         $handler = explode('.', $handler);
 
         self::$middleware->exec($full, self::$request, self::$response);
-        call_user_func("App\\{$handler[0]}::{$handler[1]}", self::$request, self::$response);
+        call_user_func("App\\Controller\\{$handler[0]}::{$handler[1]}", self::$request, self::$response);
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Controller;
 
 use View;
 
@@ -13,7 +13,7 @@ class UserController
 
     public static function detail($request, $response)
     {
-        echo $request->params->id;
+        $type = new \App\Model\Type();
     }
 
     public static function store($request, $response)

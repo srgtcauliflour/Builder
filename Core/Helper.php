@@ -86,4 +86,23 @@ class Helper
         return ob_get_clean();
     }
 
+    public static function randomString($length)
+    {
+        $possibilities = 'qwertyuiopasdfghjklzxcvbnm1234567890';
+        $chars = explode('', $possibilities);
+
+        $token = '';
+        for ($i = 0; $i < $length - 1; $i++)
+        {
+            $token .= $chars[rand(0, count($chars) - 1)];
+        }
+
+        return $token;
+    }
+
+    public static function getCurrentDate()
+    {
+        return date('Y-m-d H:i:s', strtotime('now'));
+    }
+
 }
