@@ -45,8 +45,10 @@ define("CONTROLLERS", APP . "{$seperator}Controllers");
 define("MODELS", APP . "{$seperator}Models");
 define("MIDDLEWARES", APP . "{$seperator}Middlewares");
 define("SERVICES", APP . "{$seperator}Services");
+
 define("VIEWS", APP . "{$seperator}Views");
 define("COMPONENTS", VIEWS . "{$seperator}Components");
+define("LAYOUTS", VIEWS . "{$seperator}Layouts");
 define("FRONT_END", APP . "{$seperator}public");
 
 /**
@@ -56,28 +58,20 @@ require ROOT . '/vendor/autoload.php';
 require CORE . '/Helper.php';
 require CORE . '/Autoloader.php';
 
-use Core\Autoloader;
-use Core\Secret;
-use Core\Connection;
-use Core\View;
-
 /**
  * Setup autoloader
  */
-$autoloader = new Autoloader();
+$autoloader = new \Core\Autoloader();
 $autoloader->addFile(CORE . '/Secret.php');
 $autoloader->addFile(CORE . '/Cache.php');
 $autoloader->addFile(CORE . '/Connection.php');
-
 $autoloader->addFile(CORE . '/Response.php');
 $autoloader->addFile(CORE . '/Request.php');
 $autoloader->addFile(CORE . '/Router.php');
 $autoloader->addFile(CORE . '/Middleware.php');
 $autoloader->addFile(CORE . '/View.php');
-
 $autoloader->addFile(CORE . '/Console.php');
 $autoloader->addFile(MIGRATIONS . '/Migration.php');
-
 $autoloader->addFolder(APP . '/Services');
 $autoloader->addFolder(APP . '/Middleware');
 $autoloader->addFolder(APP . '/Models');
@@ -88,6 +82,6 @@ $autoloader->autoload();
 /**
  * Setup core
  */
-Secret::setup();
-Connection::setup();
-View::setup();
+\Core\Secret::setup();
+\Core\Connection::setup();
+\Core\View::setup();

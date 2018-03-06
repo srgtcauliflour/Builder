@@ -36,6 +36,11 @@ class Helper
         return trim(preg_replace("/[^a-zA-Z0-9]{1,}/", $divider, trim($content)), $divider);
     }
 
+    /**
+     * Delete all content from folder
+     * @param string folder path
+     * @return bool
+     */
     public static function deleteContent($path)
     {
         try
@@ -67,6 +72,18 @@ class Helper
          return false;
         }
         return true;
+    }
+
+    /**
+     * file_get_contents but executes the php
+     * @param string file path
+     * @return string file content
+     */
+    public static function getContents($path)
+    {
+        ob_start();
+        include $path;
+        return ob_get_clean();
     }
 
 }

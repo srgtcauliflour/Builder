@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Core\View;
+
 class Response
 {
     /**
@@ -87,15 +89,15 @@ class Response
     }
 
     /**
-     * Set view response
+     * Send view response
      * @param string view path
      * @return self
      */
-    public function view($path)
+    public function view($path, $template = null)
     {
-        $this->body = file_get_contents($path);
+        $this->body = View::serve($path, $template);
         $this->headers['Content-type'] = 'text/html';
-        return $this;
+        $this->send(200);
     }
     
     /**

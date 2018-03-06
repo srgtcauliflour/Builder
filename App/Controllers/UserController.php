@@ -2,13 +2,13 @@
 
 namespace App;
 
-use Core\View;
+use View;
 
 class UserController
 {
     public static function index($request, $response)
     {
-        View::serve("Home.php");
+        $response->view('Home.php', 'Main.php');
     }
 
     public static function detail($request, $response)
