@@ -77,7 +77,7 @@ $autoloader->addFolder(APP . '/Services');
 $autoloader->addFolder(APP . '/Middleware');
 $autoloader->addFolder(APP . '/Models');
 $autoloader->addFolder(APP . '/Controllers');
-
+$autoloader->addFile(TESTS . '/Benchmarks/Benchmark.php');
 $autoloader->autoload();
 
 /**
