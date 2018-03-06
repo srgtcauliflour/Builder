@@ -47,14 +47,15 @@ define("MIDDLEWARES", APP . "{$seperator}Middlewares");
 define("SERVICES", APP . "{$seperator}Services");
 
 define("VIEWS", APP . "{$seperator}Views");
-define("COMPONENTS", VIEWS . "{$seperator}Components");
-define("LAYOUTS", VIEWS . "{$seperator}Layouts");
 define("FRONT_END", APP . "{$seperator}public");
+define("JS", FRONT_END . "{$seperator}js");
+define("SCSS", FRONT_END . "{$seperator}scss");
+define("CSS", FRONT_END . "{$seperator}css");
 
 /**
  * Require main files
  */
-require ROOT . '/vendor/autoload.php';
+require VENDOR . '/autoload.php';
 require CORE . '/Helper.php';
 require CORE . '/Autoloader.php';
 

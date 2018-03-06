@@ -23,7 +23,7 @@ class View
      * Layout path
      * @param string
      */
-    public static $layout;
+    public static $layouts;
 
     /**
      * Set up instance for first time
@@ -31,7 +31,7 @@ class View
      * @param string component path
      * @return void
      */
-    public static function setup($views = null, $components = null)
+    public static function setup($views = null, $layouts = null, $components = null)
     {
         if (!self::$views)
         {
@@ -45,11 +45,23 @@ class View
             }
         }
 
+        if (!self::$layouts)
+        {
+            if ($layouts === null)
+            {
+                self::$layouts = VIEWS . DIRECTORY_SEPARATOR . 'Layouts';
+            }
+            else
+            {
+                self::$layouts = $layouts;
+            }
+        }
+
         if (!self::$components)
         {
             if ($components === null)
             {
-                self::$components = COMPONENTS;
+                self::$components = VIEWS . DIRECTORY_SEPARATOR . 'Components';
             }
             else
             {
@@ -65,7 +77,7 @@ class View
      */
     public static function getLayout($path)
     {
-        return Helper::getContents(LAYOUTS . DIRECTORY_SEPARATOR . $path);
+        return Helper::getContents(self::$layouts . DIRECTORY_SEPARATOR . $path);
     }
 
     /**
