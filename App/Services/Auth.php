@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use Helper;
+use Core\Helper;
 use Core\Connection;
 
 class Auth
@@ -20,7 +20,6 @@ class Auth
     { 
         $this->users->insert([
             'token' => $this->generateToken(),
-            
         ]);
     }
 
@@ -32,6 +31,12 @@ class Auth
     public function sendResetCode()
     {
         # code...
+    }
+
+    public function createRole($data)
+    {
+        $data['type'] = 'role';
+        return (new Type())-create($data);
     }
 
     public function generateToken()

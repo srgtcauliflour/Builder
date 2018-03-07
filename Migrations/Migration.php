@@ -10,7 +10,7 @@ class Migration
      * Excluded files
      * @var array
      */
-    public $excludes = ['Migration.php']; 
+    public $excludes = ['Migration.php', 'Seeds']; 
 
     /**
      * Possible methods for migrations
@@ -72,6 +72,25 @@ class Migration
             }
 
             $files[str_replace('.php', '', $file)] = MIGRATIONS . '/' . $file;
+            unset($files[$key]);
+        }
+
+        return $files;
+    }
+
+    public function getSeeders()
+    {
+        $files = \scanDir(MIGRATIONS . DIRECTORY_SEPARATOR . 'Seeders');
+
+        foreach ($files as $key => $file)
+        {
+            if (strpos($file, '.php') === false)
+            {
+                unset($files[$key]);
+                continue;
+            }
+
+            $files[str_replace('.php', '', $file)] = MIGRATIONS . '/Seeders/' . $file;
             unset($files[$key]);
         }
 
@@ -144,10 +163,17 @@ class Migration
      */
     public function exec()
     {
+        if (!LOCAL)
+        {
+            echo "Cannot execute in staging or production";
+            return;
+        }
+
         $migrations = $this->getMigrations();
 
         if ($this->method == 'refresh')
         {
+            echo "Starting refresh method\n";
             $this->method = 'down';
             $reversed = \array_reverse($migrations);
             foreach ($reversed as $name => $path)
@@ -161,6 +187,7 @@ class Migration
 
         if ($this->method == 'down')
         {
+            echo "Dropping tables\n";
             $migrations = \array_reverse($migrations);
         }
 
@@ -169,6 +196,18 @@ class Migration
             require_once $path;
             $this->route($name);
         }
+
+        if ($this->method == 'up')
+        {
+            echo "Creating tables\n";
+            foreach ($this->getSeeders() as $name => $path)
+            {
+                require_once $path;
+
+                \call_user_func("\\Migrations\\Seeders\\{$name}::up", \Core\Connection::get());
+            }
+        }
+
     }
 
 }

@@ -10,7 +10,7 @@ class UsersTable
     {
         $schema->create('users', function ($table) {
             $table->increments('user_id');
-            $table->integer('type_id')->unsigned()->default(3);
+            $table->integer('type_id')->unsigned()->default(4);
             $table->string('email', 255)->nullable();
             $table->string('token', 255);
             $table->string('reset_token', 255)->nullable();

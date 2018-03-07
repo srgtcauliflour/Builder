@@ -8,7 +8,16 @@ use \Core\Helper;
 class Activity
 {
 
+    /**
+     * Acitivties table connection
+     * @var Connection
+     */
     private $table;
+
+    /**
+     * All insertable table fields
+     * @var array
+     */
     private $fields;
 
     public function __construct()
@@ -37,11 +46,21 @@ class Activity
         return $this->table->where('type_id', '=', $type)->get();
     }
 
+    /**
+     * Get by name
+     * @param string name
+     * @return object
+     */
     public function getByName($name)
     {
         return $this->table->where('name', '=', $name)->get();
     }
 
+    /**
+     * Create new activity
+     * @param array insert data
+     * @return bool
+     */
     public function create($data)
     {
         $insert = [];
@@ -60,6 +79,12 @@ class Activity
         return true;
     }
 
+    /**
+     * Update row
+     * @param string id
+     * @param string update data
+     * @return bool
+     */
     public function update($id, $data)
     {
         $update = [];

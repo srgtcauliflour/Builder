@@ -86,10 +86,15 @@ class Helper
         return ob_get_clean();
     }
 
+    /**
+     * Generate a random string
+     * @param int string length
+     * @return string random string
+     */
     public static function randomString($length)
     {
         $possibilities = 'qwertyuiopasdfghjklzxcvbnm1234567890';
-        $chars = explode('', $possibilities);
+        $chars = str_split($possibilities);
 
         $token = '';
         for ($i = 0; $i < $length - 1; $i++)
@@ -100,9 +105,18 @@ class Helper
         return $token;
     }
 
-    public static function getCurrentDate()
+    /**
+     * Generalize the date function
+     * @return string date
+     */
+    public static function getCurrentDate($time = true)
     {
-        return date('Y-m-d H:i:s', strtotime('now'));
+        if ($time)
+        {
+            return date('Y-m-d H:i:s', strtotime('now'));
+        }
+
+        return date('Y-m-d', strtotime('now'));
     }
 
 }
