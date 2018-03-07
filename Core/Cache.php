@@ -22,7 +22,7 @@ class Cache
             mkdir(CACHE . "/{$type}");
         }
 
-        $result = \file_put_contents($path, json_encode($content));
+        $result = \file_put_contents($path, serialize($content));
 
         if ($result === false)
         {
@@ -40,7 +40,7 @@ class Cache
      */
     public static function get($type, $id)
     {
-        return json_decode(\file_get_contents(CACHE . "/{$type}/{$id}.cache"), true);
+        return json_decode(\unserialize(CACHE . "/{$type}/{$id}.cache"), true);
     }
 
     /**

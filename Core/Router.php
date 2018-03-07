@@ -26,10 +26,12 @@ class Router
      * @param FastRoute\RouteCollector collection
      * @return void
      */
-    public static function routes($router)
+    public static function routes($collection)
     {
-        include APP . DIRECTORY_SEPARATOR . "Router.php";
-        \routes($router);
+        $collection->get('/user', 'UserController.index');
+        $collection->get('/user/{id}', 'UserController.detail');
+        $collection->post('/user', 'UserController.store');
+        $collection->put('/user/{id}', 'UserController.update');
     }
 
     /**
@@ -37,10 +39,9 @@ class Router
      * @param Core\Middleware
      * @return void
      */
-    public static function middleware($middleware)
+    public static function middleware($collection)
     {
-        include APP . DIRECTORY_SEPARATOR . "Middleware.php";
-        \middleware($middleware);
+        $collection->add('UserController.detail', 'User.denyDetails');
     }
 
     /**
@@ -50,7 +51,6 @@ class Router
     public static function notFound()
     {
         \http_response_code(404);
-        include APP . DIRECTORY_SEPARATOR . "404.php";
     }
 
     /**
@@ -61,7 +61,6 @@ class Router
     public static function methodNotAlowed($allowedMethods)
     {
         \http_response_code(405);
-        include APP . DIRECTORY_SEPARATOR . "405.php";
     }
 
     /**
@@ -74,6 +73,7 @@ class Router
         $full = $handler;
         $handler = explode('.', $handler);
 
+        self::$middleware->exec('*', self::$request, self::$response);
         self::$middleware->exec($full, self::$request, self::$response);
         call_user_func("App\\Controller\\{$handler[0]}::{$handler[1]}", self::$request, self::$response);
     }
