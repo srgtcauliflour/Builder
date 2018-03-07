@@ -1,0 +1,29 @@
+$maxCols: 12;
+
+.grid
+{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+
+    @include tablet
+    {
+        flex-direction: row;
+    }
+
+    > *
+    {
+        flex: 1;
+        @include tablet
+        {
+            @for $i from 1 through $maxCols
+            {
+                &.is-#{$i}
+                {
+                    width: (100% / #{$i});
+                    flex: none;
+                }
+            }
+        }
+    }
+}
