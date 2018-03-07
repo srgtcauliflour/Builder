@@ -93,9 +93,9 @@ class Response
      * @param string view path
      * @return self
      */
-    public function view($path, $template = null)
+    public function view($path)
     {
-        $this->body = View::serve($path, $template);
+        $this->body = View::serve($path);
         $this->headers['Content-type'] = 'text/html';
         $this->send(200);
     }

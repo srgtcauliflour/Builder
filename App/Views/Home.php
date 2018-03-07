@@ -1,1 +1,3 @@
-<h1>Welcome to the home page!</h1>
+@extends('Main.php', 'content');
+
+<h1>Home page!</h1>

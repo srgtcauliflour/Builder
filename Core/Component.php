@@ -5,7 +5,7 @@ function Component($path)
     return \Core\View::getComponent($path);
 }
 
-function View($path, $layout)
+function View($path)
 {
-    return \Core\View::serve($path, $layout);
+    return \Core\View::serve($path);
 }

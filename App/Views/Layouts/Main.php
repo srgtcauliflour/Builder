@@ -8,7 +8,9 @@
 </head>
 <body>
     <?= component('header.php') ?>
-    {{ content }}
+    <main>
+        {{ content }}
+    </main>
     <?= component('footer.php') ?>
 </body>
 </html>

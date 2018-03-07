@@ -101,14 +101,29 @@ class View
     }
 
     /**
-     * Set content for layout
-     * @param string layout path
-     * @param string content
-     * @return string full content
+     * Extend the view
+     * @param string view path
+     * @return string view
      */
-    public static function setLayoutContent($path, $content)
+    public static function extend($view)
     {
-        return \preg_replace("/\{\{\s*(?:content)\s*\}\}/", $content, self::getLayout($path));
+        $pattern = self::matchFunc('extends', 2);
+        $viewContent = self::getView($view);
+
+        preg_match($pattern, $viewContent, $matches);
+        array_shift($matches);
+
+        if (count($matches) === 0)
+        {
+            return $viewContent;
+        }
+
+        $viewContent = preg_replace($pattern, "", $viewContent);
+
+        $layoutContent = self::getLayout($matches[0]);
+        $placePattern = self::matchBrackets($matches[1]);
+
+        return preg_replace($placePattern, $viewContent, $layoutContent);
     }
 
     /**
@@ -117,20 +132,35 @@ class View
      * @param string layout
      * @return string content
      */
-    public static function serve($path, $layout = null)
+    public static function serve($path)
     {
         include CORE . '/Component.php';
 
-        $view = self::getView($path);
+        return self::extend($path);
+    }
 
-        if ($layout !== null)
+    private static function matchBrackets($name)
+    {
+        return "/\{\{\s*(".$name.")\s*\}\}/";
+    }
+
+    private static function matchFunc($name, $numArguments)
+    {
+        $quotation = "(?:\\\"|\')";
+
+        $pattern = "";
+        $pattern .= "@{$name}\s*\(\s*";
+        for ($i = 0; $i < $numArguments; $i++)
         {
-            return self::setLayoutContent($layout, $view);
+            $pattern .= $quotation;
+            $pattern .= "\s*(.*)\s*";
+            $pattern .= $quotation;
+            $pattern .= "\s*\,\s*";
         }
-        else
-        {
-            return $template;
-        }
+        $pattern = rtrim($pattern, "\,\s*");
+        $pattern .= "\s*\)\s*\;";
+
+        return "/{$pattern}/";
     }
 
 }
