@@ -1,7 +1,123 @@
-@import "~normalize.css/normalize.css";
 @import url("https://fonts.googleapis.com/css?family=Roboto");
 
-@import "_typography.scss";
-@import "_mixins.scss";
-@import "_grid.scss";
+$primary: #891e26;
+$body-background-color: #e6ecf0;
+$main-bg: #fff;
 
+$sidebar-width: 250px;
+
+$body-family: 'Roboto', 'sans-serif';
+
+@import "~bulma/sass/utilities/_all";
+@import "~bulma/sass/base/_all";
+@import "~bulma/sass/elements/container";
+@import "~bulma/sass/elements/button";
+@import "~bulma/sass/elements/form";
+@import "~bulma/sass/elements/title";
+@import "~bulma/sass/elements/other";
+@import "~bulma/sass/grid/columns";
+
+@import "~animate.css/animate.min.css";
+
+.wrapper
+{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    .header, .footer
+    {
+        width: 100%;
+    }
+
+    .page
+    {
+        flex: 1;
+        position: relative;
+    }
+}
+
+%nav-item
+{
+    display: block;
+    padding: 0.4rem 0.6rem;
+    color: rgba(255, 255, 255, 0.95);
+    position: relative;
+    &:hover, &.is-active
+    {
+        opacity: 0.8;
+        background-color: darken($primary, 5%);
+    }
+
+    &.is-active
+    {
+        background-color: darken($primary, 15%);
+    }
+}
+
+.nav-item
+{
+    @extend %nav-item;
+}
+
+.header
+{
+    background-color: $primary;
+    color: #fff;
+    
+    > .container
+    {
+        display: flex;
+    }
+
+    .brand
+    {
+        @extend %nav-item;
+    }
+
+    .nav-right
+    {
+        flex-grow: 1;
+        > ul
+        {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-content: center;
+
+            li > a
+            {
+                @extend %nav-item;
+            }
+        }
+    }
+}
+
+.footer
+{
+    background-color: $primary;
+    color: #fff;
+    text-align: center;
+    @include tablet
+    {
+        text-align: right;
+    }
+}
+
+.app
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    .sidebar
+    {
+        background: #fff;
+    }
+
+    .builder
+    {
+        // background: red;
+    }
+}

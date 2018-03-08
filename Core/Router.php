@@ -32,6 +32,9 @@ class Router
         $collection->get('/user/{id}', 'UserController.detail');
         $collection->post('/user', 'UserController.store');
         $collection->put('/user/{id}', 'UserController.update');
+
+        $collection->get('/app', 'AppController.app');
+        $collection->get('/dashboard', 'AppController.dashboard');
     }
 
     /**

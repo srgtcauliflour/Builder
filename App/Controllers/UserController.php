@@ -8,7 +8,7 @@ class UserController
 {
     public static function index($request, $response)
     {
-        $response->view('Home.php');
+        $response->view('home.php');
     }
 
     public static function detail($request, $response)
