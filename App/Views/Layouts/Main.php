@@ -15,7 +15,7 @@
 
         <?= component('header.php') ?>
 
-        <main role="main" class="page">
+        <main role="main" class="main">
             {{ content }}
         </main>
         

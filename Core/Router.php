@@ -35,6 +35,7 @@ class Router
 
         $collection->get('/app', 'AppController.app');
         $collection->get('/dashboard', 'AppController.dashboard');
+        $collection->get('/login', 'AuthController.loginPage');
     }
 
     /**

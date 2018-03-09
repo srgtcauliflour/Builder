@@ -11,13 +11,17 @@ $body-family: 'Roboto', 'sans-serif';
 @import "~bulma/sass/utilities/_all";
 @import "~bulma/sass/base/_all";
 @import "~bulma/sass/elements/container";
+@import "~bulma/sass/elements/icon";
 @import "~bulma/sass/elements/button";
 @import "~bulma/sass/elements/form";
 @import "~bulma/sass/elements/title";
 @import "~bulma/sass/elements/other";
 @import "~bulma/sass/grid/columns";
 
+@import "helpers";
+
 @import "~animate.css/animate.min.css";
+@import "~dragula/dist/dragula.css";
 
 .wrapper
 {
@@ -30,7 +34,7 @@ $body-family: 'Roboto', 'sans-serif';
         width: 100%;
     }
 
-    .page
+    .main
     {
         flex: 1;
         position: relative;
@@ -42,7 +46,6 @@ $body-family: 'Roboto', 'sans-serif';
     display: block;
     padding: 0.4rem 0.6rem;
     color: rgba(255, 255, 255, 0.95);
-    position: relative;
     &:hover, &.is-active
     {
         opacity: 0.8;
@@ -64,7 +67,7 @@ $body-family: 'Roboto', 'sans-serif';
 {
     background-color: $primary;
     color: #fff;
-    
+    z-index: 999;
     > .container
     {
         display: flex;
@@ -84,9 +87,13 @@ $body-family: 'Roboto', 'sans-serif';
             flex-direction: row;
             justify-content: flex-end;
             align-content: center;
-
+            height: 100%;
             li > a
             {
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 @extend %nav-item;
             }
         }
@@ -104,8 +111,9 @@ $body-family: 'Roboto', 'sans-serif';
     }
 }
 
-.app
+.page
 {
+    padding-top: 1em;
     position: absolute;
     top: 0;
     left: 0;
@@ -120,4 +128,27 @@ $body-family: 'Roboto', 'sans-serif';
     {
         // background: red;
     }
+
+    &.login
+    {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .login-form
+        {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 450px;
+            background-color: #fff;
+            padding: 2rem;
+            border-bottom: 1px solid $primary;
+            .title
+            {
+                text-align: left;
+            }
+        }
+    }
 }
+
