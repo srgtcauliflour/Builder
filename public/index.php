@@ -1,64 +1,60 @@
 <?php
 
-use Core\Router;
-use Core\Response;
-use Core\Request;
-use Core\Middleware;
-use Core\Helper;
-
-require __DIR__ . '/../Core/Bootstrap.php';
-
-Router::setup();
-Router::$middleware = new Middleware();
-
 /**
- * Set routes
+ * Laravel - A PHP Framework For Web Artisans
+ *
+ * @package  Laravel
+ * @author   Taylor Otwell <taylor@laravel.com>
  */
-$dispatcher = FastRoute\cachedDispatcher(function(FastRoute\RouteCollector $router) {
-    Router::routes($router);
-}, [
-    'cacheFile' => CACHE . '/route.cache',
-    'cacheDisabled' => LOCAL
-]);
 
-/**
- * Get request info
- */
-$httpMethod = $_SERVER['REQUEST_METHOD'];
-$uri = rawurldecode(explode('?', $_SERVER['REQUEST_URI'])[0]);
-$uri = rtrim($uri, '/');
+define('LARAVEL_START', microtime(true));
 
-/**
- * Set request object
- */
-Router::$request->method = $httpMethod;
-Router::$request->uri = $uri;
-Router::$request->headers = getallheaders();
+/*
+|--------------------------------------------------------------------------
+| Register The Auto Loader
+|--------------------------------------------------------------------------
+|
+| Composer provides a convenient, automatically generated class loader for
+| our application. We just need to utilize it! We'll simply require it
+| into the script here so that we don't have to worry about manual
+| loading any of our classes later on. It feels great to relax.
+|
+*/
 
-/**
- * Dispatch
- */
-$routeInfo = $dispatcher->dispatch($httpMethod, $uri);
-switch ($routeInfo[0]) {
-    /**
-     * Route not found
-     */
-    case FastRoute\Dispatcher::NOT_FOUND:
-        Router::notFound();
-        break;
-    /**
-     * Method not allowed
-     */
-    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-        Router::methodNotAlowed($routeInfo[1]);
-        break;
-    /**
-     * Route found
-     */
-    case FastRoute\Dispatcher::FOUND:
-        Router::middleware(Router::$middleware);
-        Router::$request->params = Helper::arrayToObject($routeInfo[2]);
-        Router::found($routeInfo[1]);
-        break;
-}
+require __DIR__.'/../vendor/autoload.php';
 
+/*
+|--------------------------------------------------------------------------
+| Turn On The Lights
+|--------------------------------------------------------------------------
+|
+| We need to illuminate PHP development, so let us turn on the lights.
+| This bootstraps the framework and gets it ready for use, then it
+| will load up this application so that we can run it and send
+| the responses back to the browser and delight our users.
+|
+*/
+
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run The Application
+|--------------------------------------------------------------------------
+|
+| Once we have the application, we can handle the incoming request
+| through the kernel, and send the associated response back to
+| the client's browser allowing them to enjoy the creative
+| and wonderful application we have prepared for them.
+|
+*/
+
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+);
+
+$response->send();
+
+$kernel->terminate($request, $response);
