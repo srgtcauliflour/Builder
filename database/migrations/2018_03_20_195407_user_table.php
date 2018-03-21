@@ -15,10 +15,11 @@ class UserTable extends Migration
     {
         Schema::create('users', function ($table) {
             $table->increments('user_id');
-            $table->unsignedInteger('type_id')->default(1);
+            $table->unsignedInteger('type_id')->default(4);
             $table->string('email')->unique();
             $table->string('token', 32)->unique();
             $table->tinyInteger('is_active')->default(1);
+            $table->string('country', 2)->default('nl');
             $table->timestamps();
         });
     }
